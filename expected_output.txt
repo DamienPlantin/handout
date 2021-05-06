@@ -1,0 +1,10 @@
+Break                      65 minutes    6%
+Dictionaries               15 minutes    1%
+Exercises                 340 minutes   35%
+Functions                  30 minutes    3%
+Introduction              100 minutes   10%
+Lists                      60 minutes    6%
+Lists and Tuples           60 minutes    6%
+Lunch Break               150 minutes   15%
+Numbers and strings        55 minutes    5%
+Solutions                  95 minutes    9%

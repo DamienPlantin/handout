@@ -1,11 +1,11 @@
 import os
 import sys
 import unittest
-import parse_log2
+import parse_log_damien
 # import parse_log
 
 
-arg = sys.argv[1]
+
 
 
 class BasicTestSuite(unittest.TestCase):
@@ -26,9 +26,9 @@ class BasicTestSuite(unittest.TestCase):
             "Break                      20 minutes   15%")
 
     def test_times(self, hours):
-        self.assertEqual(parse_log2.times("09:20-11:00"), 100)
-
+        self.assertEqual(parse_log_damien.times("09:20-11:00"), 100)
 
 
 if __name__ == '__main__':
     unittest.main()
+    arg = sys.argv[1]

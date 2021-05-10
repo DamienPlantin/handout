@@ -2,6 +2,8 @@ import logging
 import datetime
 import sys
 
+hours, matters, minutes, dict = [], [], [], {}
+
 
 def open_file(arg):
     """
@@ -19,16 +21,15 @@ def open_file(arg):
     logging.info(f"Liste des matieres : {matters}")
     logging.info(f"Liste des heures : {hours}")
     logging.info("Finished fonction open_file")
-    return hours
+    return matters, hours
 
 
-def times(arg):
+def times(matters, hours):
     """
     Cette fonction permet de convertir les horaires
     en minutes
     """
     logging.info("Start fonction times")
-    hours = open_file(arg)
     for hour in hours:
         logging.info(hour)
         hour = hour.split("-")
@@ -37,73 +38,60 @@ def times(arg):
         time = time2 - time1
         logging.info(time.seconds//60)
         minutes.append(time.seconds//60)
+    result = list(zip(matters, minutes))
     logging.info("Finished fonction times")
-    return minutes
+    return result
 
 
-def total_times(arg):
-    """
-    Cette fonction calcul le temps total du planning
-    """
-    logging.info("Start fonction total_times")
-    minutes = times(arg)
-    logging.info(f"Liste des horires en minutes : {minutes}")
-    res = 0
-    for minute in minutes:
-        res += minute
-    logging.info(f"Temps total : {res}")
-    logging.info("Finished fonction total_times")
-    return res
-
-
-def add_dict(arg):
+def add_dict(result):
     """
     Cette fonction permet de mettre en place un dictionnaire
     avec comme clé la matière et comme valeur le temps en minutes.
 
     """
     logging.info("Start fonction add_dict")
-    total_times(arg)
-    result = list(zip(matters, minutes))
+    res = 0
     result.sort()
     logging.info(f"Liste trier : {result}")
     for matter, minute in result:
+        res += minute
         if matter not in dict:
             dict[matter] = minute
         elif matter in dict:
             dict[matter] += minute
+    logging.info(f"Temps total : {res}")
     logging.info(f"Dictionnaire des matieres : {dict}")
     logging.info("Finished fonction add_dict")
-    return dict
+    return res, dict
 
 
-def expected_output(arg):
+def expected_output(total, output):
     logging.info("Start fonction expected_output")
-    total = total_times(arg)
-    output = add_dict(arg)
     for a in output.keys():
         a = a
-        b = output[a]//2
+        b = output[a]
         c = int((b/total)*100)
         b = str(b) + " minutes"
         c = str(c) + "%"
         c = " "*(6-len(c))+str(c)
-        a = a+(43-(len(a)+len(b)+len(c)))*" "
+        a = a + (43-(len(a)+len(b) + len(c)))*" "
         finished = a + b + c
         print(finished)
         logging.info(f"Sortie : {finished}")
     logging.info("Finished fonction expected_output")
-    return output
+    return finished
 
 
 def main():
+    matters, hours = open_file(arg)
+    result = times(matters, hours)
+    total, output = add_dict(result)
     sys.stdout = open('expected_output_damien.txt', 'w')
-    expected_output(arg)
+    expected_output(total, output)
     sys.stdout.close()
 
 
 if __name__ == '__main__':
-    hours, matters, minutes, dict = [], [], [], {}
     logging.basicConfig(filename='log_damien.log', level=logging.DEBUG)
     arg = sys.argv[1]
     sys.exit(main())
